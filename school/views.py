@@ -1,14 +1,18 @@
-from django.db.models import F, Q, Count, Sum, Min, Max
+# annotate(ball=Sum('regions__districts__schools__students__ball'))
+# Region.objects.all().filter(districts__schools__students__ball__lst=1)
+
+from django.db.models import F, Q, Count, Sum, Min, Max, Aggregate
 
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.response import Response
 
-from .models import Region, District, School, Student, RegionMonthlyResult
+from .models import Region, District, School, Student, RegionMonthlyResult, Month
 from .serializers import RegionSerializer, DistrictSerializer, SchoolSerializer, StudentSerializer, \
-    RegionMonthlyResultSerializer
+    RegionMonthlyResultSerializer, RegionDistrictSerializer, RegionMonthSerializer, DistrictSchoolSerializer
 
 
 class RegionListView(ListCreateAPIView):
-    queryset = Region.objects.all()
+    queryset = Region.objects.region_ball()
     serializer_class = RegionSerializer
 
 
@@ -30,3 +34,21 @@ class SchoolListView(ListCreateAPIView):
 class StudentListView(ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
+
+class RegionDistrictView(ListCreateAPIView):
+    queryset = Region.objects.order_by('-districts__result')
+    serializer_class = RegionDistrictSerializer
+
+
+class RegionMonthView(ListCreateAPIView):
+    queryset = Month.objects.all()
+    serializer_class = RegionMonthSerializer
+
+
+class DistrictSchoolView(ListCreateAPIView):
+    queryset = District.objects.all()
+    serializer_class = DistrictSchoolSerializer
+
+
+# .filter(districts__result__gte=Region.objects.aggregate(Min('districts__result')))
