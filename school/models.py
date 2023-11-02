@@ -2,21 +2,6 @@ from django.db import models
 
 from django.db.models import F, Q, Count, Sum, Min, Max, Avg
 
-# class MonthNameChoices(models.TextChoices):
-#     """Oy nomlari"""
-#
-#     january = "January"
-#     february = "February"
-#     march = "March"
-#     april = "April"
-#     may = "May"
-#     june = "June"
-#     july = "July"
-#     august = "August"
-#     september = "September"
-#     october = "October"
-#     november = "November"
-#     december = "December"
 from django.db.models.functions import Coalesce
 import json
 
