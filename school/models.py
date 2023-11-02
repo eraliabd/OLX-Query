@@ -6,16 +6,16 @@ from django.db.models.functions import Coalesce
 import json
 
 
-class RegionBallManager(models.Manager):
-    def region_ball(self):
-        response = self.get_queryset().annotate(
-            total_ball=Coalesce(Sum('districts__schools__students__result_ball'), 0.0))
-
-        result = list()
-        for res in response:
-            result.append({"title": res.title, "ball": res.total_ball})
-        result = json.dumps(result)
-        return response
+# class RegionBallManager(models.Manager):
+#     def region_ball(self):
+#         response = self.get_queryset().annotate(
+#             total_ball=Coalesce(Sum('districts__schools__students__result_ball'), 0.0))
+#
+#         result = list()
+#         for res in response:
+#             result.append({"title": res.title, "ball": res.total_ball})
+#         result = json.dumps(result)
+#         return result
 
 
 class Month(models.Model):
@@ -34,7 +34,7 @@ class Region(models.Model):
     ball = models.FloatField(null=True, blank=True)
     result = models.FloatField(null=True, blank=True, default=0)
 
-    objects = RegionBallManager()
+    # objects = RegionBallManager()
 
     def __str__(self):
         return self.title

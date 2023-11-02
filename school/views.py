@@ -2,6 +2,7 @@
 # Region.objects.all().filter(districts__schools__students__ball__lst=1)
 
 from django.db.models import F, Q, Count, Sum, Min, Max, Aggregate
+from django.db.models.functions import Coalesce
 
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
@@ -52,3 +53,6 @@ class DistrictSchoolView(ListCreateAPIView):
 
 
 # .filter(districts__result__gte=Region.objects.aggregate(Min('districts__result')))
+
+def region_ball():
+    result = Region.objects.annotate(total_ball=Coalesce(Sum('districts__schools__students__result_ball'), 0.0))

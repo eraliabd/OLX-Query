@@ -54,7 +54,7 @@ class Product(models.Model):
 # 9  Product.objects.filter(id=1).update(view_count=F('view_count')+1)
 # 10 for c in Category.objects.all():
 # ...     print(c.title)
-# ...     for p in Product.objects.filter(category_id=c.id):
+# ...     for p in c.ads.all():
 # ...             print(p.title)
 # 11 Product.objects.aggregate(models.Sum('view_count'))
 # 12 Product.objects.aggregate(models.Avg('price'), models.Max('price'), models.Min('price'))
